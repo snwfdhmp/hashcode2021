@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "name": "hashcode2021",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:snwfdhmp/hashcode2021.git",
+  "author": "Martin Joly <snwfdhmp@gmail.com>",
+  "license": "MIT"
+}
