@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "git@github.com:snwfdhmp/hashcode2021.git",
   "author": "Martin Joly <snwfdhmp@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "mathjs": "^9.2.0"
+  }
 }

@@ -1,4 +1,5 @@
 import fs from "fs";
+import { gcd } from "mathjs";
 
 let inputSelected = "a";
 if (process.argv[2] && process.argv[2] != "") {
@@ -24,6 +25,7 @@ const main = () => {
     streetIndex[streetId] = {
       score: 0,
       arrivalIntersection: intersectionId,
+      duration: parseInt(fileLines[i].split(" ")[3]),
     };
     if (!intersections[intersectionId]) intersections[intersectionId] = [];
     intersections[intersectionId].push(streetId);
@@ -31,9 +33,18 @@ const main = () => {
 
   for (let i = 1 + streetCount; i < 1 + streetCount + carCount; i++) {
     const lineData = fileLines[i].split(" ");
+    let totalRoad = 0;
+    let addedScore = 0;
     for (let j = 1; j <= lineData[0]; j++) {
-      streetIndex[lineData[j]].score += 1;
+      totalRoad += streetIndex[lineData[j]].duration;
+      addedScore++;
+      streetIndex[lineData[j]].score++;
+      if (totalRoad >= duration) {
+        streetIndex[lineData[j]].score -= addedScore;
+        break;
+      }
     }
+    console.log(totalRoad);
   }
 
   let outputLines = [];
@@ -70,7 +81,11 @@ const main = () => {
       // const finalDuration = Math.ceil(
       //   streetIndex[intersections[intersectionId][j]].ratio
       // );
-      const finalDuration = streetIndex[intersections[intersectionId][j]].score;
+      const finalDuration =
+        streetIndex[intersections[intersectionId][j]].score /
+        gcd_more_than_two_numbers(
+          intersections[intersectionId].map((x) => streetIndex[x].score)
+        );
       if (isNaN(finalDuration)) {
         console.log(streetIndex[intersections[intersectionId][j]]);
         throw new Error();
@@ -86,3 +101,30 @@ const main = () => {
 };
 
 main();
+
+function gcd_more_than_two_numbers(input) {
+  if (toString.call(input) !== "[object Array]") return false;
+  var len, a, b;
+  len = input.length;
+  if (!len) {
+    return null;
+  }
+  a = input[0];
+  for (var i = 1; i < len; i++) {
+    b = input[i];
+    a = gcd_two_numbers(a, b);
+  }
+  return a;
+}
+
+function gcd_two_numbers(x, y) {
+  if (typeof x !== "number" || typeof y !== "number") return false;
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while (y) {
+    var t = y;
+    y = x % y;
+    x = t;
+  }
+  return x;
+}
